@@ -1,0 +1,8 @@
+1. Add to app delegate, just follow instructions verbatum: https://docs.branch.io/pages/apps/ios/
+2. To track user viewed:
+	- Create content reference
+	- Create link reference
+	- Create deep link
+	- Track users
+	- Track event with custom event titled "monster_edit"
+	- Check dashboard under "custom event filter": https://dashboard.branch.io/liveview/events

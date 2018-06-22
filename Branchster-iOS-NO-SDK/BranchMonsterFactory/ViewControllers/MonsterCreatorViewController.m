@@ -10,6 +10,7 @@
 #import "MonsterPreferences.h"
 #import "MonsterPartsFactory.h"
 #import "ImageCollectionViewCell.h"
+#import "Branch/Branch.h"
 
 @interface MonsterCreatorViewController () <UICollectionViewDataSource, UICollectionViewDelegate>
 
@@ -68,6 +69,38 @@ static CGFloat SIDE_SPACE = 7.0;
     toolbar.items = [NSArray arrayWithObject:barButton];
     
     // TODO: track that the user viewed the monster edit page
+    
+    /* Create content reference */
+    BranchUniversalObject *buo = [[BranchUniversalObject alloc] initWithCanonicalIdentifier:@"content/12345"];
+    buo.title = @"Monster Edit View";
+    buo.contentDescription = @"User modifying monster";
+    buo.publiclyIndex = YES;
+    buo.locallyIndex = YES;
+    buo.contentMetadata.customMetadata[@"key1"] = @"value1";
+    
+    /* Create link refernce */
+    BranchLinkProperties *lp = [[BranchLinkProperties alloc] init];
+    lp.channel = @"sharing";
+    
+    [lp addControlParam:@"$match_duration" withValue: @"2000"];
+    [lp addControlParam:@"custom_data" withValue: @"yes"];
+    [lp addControlParam:@"look_at" withValue: @"this"];
+    
+    /* Create deep link */
+    [buo getShortUrlWithLinkProperties:lp andCallback:^(NSString* url, NSError* error) {
+        if (!error) {
+            NSLog(@"@", url);
+        }
+    }];
+    /* Track users */
+    [[Branch getInstance] setIdentity:@"monster_edit"];
+    /* Track events  */
+    [[BranchEvent customEventWithName:@"monster_edit" contentItem:buo] logEvent];
+    // logout
+    [[Branch getInstance] logout];
+
+    /* end */
+    
     
     self.etxtName.inputAccessoryView = toolbar;
     [self.etxtName addTarget:self.etxtName
