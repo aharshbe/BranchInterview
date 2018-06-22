@@ -1,5 +1,5 @@
-1. Add to app delegate, just follow instructions verbatum: https://docs.branch.io/pages/apps/ios/
-2. To track user viewed:
+1. Add to app delegate, just follow instructions verbatim: https://docs.branch.io/pages/apps/ios/
+2. To track user viewed monster edit page:
 	- Create content reference
 	- Create link reference
 	- Create deep link
