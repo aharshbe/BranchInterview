@@ -254,7 +254,6 @@ static CGFloat MONSTER_HEIGHT_FIVE = 0.55f;
         params[@"referringUsername"] = @"RandomKey";
         params[@"referringUserId"] = @"RandomValue";
         
-        // ... insert code to start the spinner of your choice here ...
         [self.progressBar show];
         
         [[Branch getInstance] getShortURLWithParams:params andChannel:@"SMS" andFeature:@"Referral" andCallback:^(NSString *url, NSError *error) {
@@ -269,13 +268,11 @@ static CGFloat MONSTER_HEIGHT_FIVE = 0.55f;
 
                     messageComposer.messageComposeDelegate = self;
                     [self presentViewController:messageComposer animated:YES completion:^{
-                        // ... insert code to stop the spinner here (be sure to do so on the main thread) ...
                         [self.progressBar hide];
 
                     }];
 
                 } else {
-                    // ... insert code to stop the spinner here (be sure to do so on the main thread) ...
                     [self.progressBar hide];
                     [[[UIAlertView alloc] initWithTitle:@"Sorry" message:@"Your device does not allow sending SMS or iMessages." delegate:nil cancelButtonTitle:@"Okay" otherButtonTitles:nil] show];
                 }
