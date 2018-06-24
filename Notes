@@ -6,3 +6,20 @@
 	- Track users
 	- Track event with custom event titled "monster_edit"
 	- Check dashboard under "custom event filter": https://dashboard.branch.io/liveview/events
+3. Adjust text view so that link is displayed properly
+
+Dependencies/Constraints:
+
+1. A familiarity with Objectice-C for this particular project is needed
+	--> if you're more interested in swift, check out this demo: https://github.com/BranchMetrics/Branch-Example-Deep-Linking-Branchster-iOS
+2. Must have a paid iOS developer account
+	--> This is because Branch uses associated domains during the set-up process 
+	--> You'll also need a paid developer account to deploy your app
+	--> Alternatively, Android's implementation is free, check it out here: https://github.com/BranchMetrics/Branch-Example-Deep-Linking-Branchster-Android
+3. A physical iOS device is needed to test deep link integration
+4. An active and working internet connection of 30 mb/s is needed to test event listenters 
+5. Familiarity with git and or GitHub is needed in order to clone repo and commit changes
+	--> GitHub demo can be found here: https://try.github.io/
+6. Familiarity with basic iOS implementations, e.g., what a content viewer is, a storyboard, etc.
+	--> Demo found here: https://developer.apple.com/library/archive/referencelibrary/GettingStarted/DevelopiOSAppsSwift/index.html
+
