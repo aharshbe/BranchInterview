@@ -205,7 +205,7 @@ static CGFloat MONSTER_HEIGHT_FIVE = 0.55f;
 
 - (IBAction)cmdMessageClick:(id)sender {
     // track that the user clicked the share via sms button and pass in the monster meta data
-    
+
     /* Create content reference */
     BranchUniversalObject *buo = [[BranchUniversalObject alloc] initWithCanonicalIdentifier:@"content/12345"];
     buo.title = @"Clicked Message";
@@ -226,6 +226,7 @@ static CGFloat MONSTER_HEIGHT_FIVE = 0.55f;
     [[Branch getInstance] setIdentity:@"clicked_share_sms"];
     /* Track events  */
     BranchEvent *event = [BranchEvent customEventWithName:@"clicked_share_sms" contentItem:buo];
+
     event.customData[@"monster_name"] = self.monsterName;
     event.customData[@"monster_description"] = self.monsterDescription;
     event.customData[@"monster_title"] = self.monsterMetadata[@"og_title"];
