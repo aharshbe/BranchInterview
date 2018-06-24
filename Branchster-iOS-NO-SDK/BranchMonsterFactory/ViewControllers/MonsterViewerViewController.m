@@ -217,6 +217,7 @@ static CGFloat MONSTER_HEIGHT_FIVE = 0.55f;
     /* Create link refernce */
     BranchLinkProperties *lp = [[BranchLinkProperties alloc] init];
     lp.channel = @"sharing";
+    lp.channel = @"sms_sent";
     
     [lp addControlParam:@"$match_duration" withValue: @"2000"];
     [lp addControlParam:@"custom_data" withValue: @"yes"];

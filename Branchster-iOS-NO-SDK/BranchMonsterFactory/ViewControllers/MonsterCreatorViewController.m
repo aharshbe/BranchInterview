@@ -86,12 +86,6 @@ static CGFloat SIDE_SPACE = 7.0;
     [lp addControlParam:@"custom_data" withValue: @"yes"];
     [lp addControlParam:@"look_at" withValue: @"this"];
     
-    /* Create deep link */
-    [buo getShortUrlWithLinkProperties:lp andCallback:^(NSString* url, NSError* error) {
-        if (!error) {
-            NSLog(@"@", url);
-        }
-    }];
     /* Track users */
     [[Branch getInstance] setIdentity:@"monster_edit"];
     /* Track events  */

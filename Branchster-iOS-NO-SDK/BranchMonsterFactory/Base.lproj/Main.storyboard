@@ -396,6 +396,7 @@
                 </viewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="dkx-z0-nzr" sceneMemberID="firstResponder"/>
             </objects>
+            <point key="canvasLocation" x="342" y="357"/>
         </scene>
         <!--Monster Viewer View Controller-->
         <scene sceneID="j5E-Kh-djO">
