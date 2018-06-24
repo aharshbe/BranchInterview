@@ -14,6 +14,8 @@
 #import <Social/Social.h>
 #import <FacebookSDK/FacebookSDK.h>
 #import "Branch/Branch.h"
+/* Headers for sms */
+#import <MessageUI/MFMailComposeViewController.h>
 
 
 @interface MonsterViewerViewController () <MFMessageComposeViewControllerDelegate>
@@ -80,7 +82,6 @@ static CGFloat MONSTER_HEIGHT_FIVE = 0.55f;
     
     // #8 TODO: track that the user viewed the monster view page
     
-    
     /* Create content reference */
     BranchUniversalObject *buo = [[BranchUniversalObject alloc] initWithCanonicalIdentifier:@"content/12345"];
     buo.title = @"Monster view page";
@@ -111,7 +112,6 @@ static CGFloat MONSTER_HEIGHT_FIVE = 0.55f;
     [buo getShortUrlWithLinkProperties:lp andCallback:^(NSString* url, NSError* error) {
         if (!error) {
             self.urlTextView.text = url;
-             [self.progressBar hide];
         }
     }];
    
@@ -217,7 +217,6 @@ static CGFloat MONSTER_HEIGHT_FIVE = 0.55f;
     /* Create link refernce */
     BranchLinkProperties *lp = [[BranchLinkProperties alloc] init];
     lp.channel = @"sharing";
-    lp.channel = @"sms_sent";
     
     [lp addControlParam:@"$match_duration" withValue: @"2000"];
     [lp addControlParam:@"custom_data" withValue: @"yes"];
@@ -237,8 +236,6 @@ static CGFloat MONSTER_HEIGHT_FIVE = 0.55f;
     [[Branch getInstance] logout];
     
     /* end */
-
-    
     
     if([MFMessageComposeViewController canSendText]){
         [self.progressBar changeMessageTo:@"preparing message.."];
@@ -250,21 +247,45 @@ static CGFloat MONSTER_HEIGHT_FIVE = 0.55f;
         // Create Branch link as soon as the user clicks
         // Pass in the special Branch dictionary of keys/values you want to receive in the AppDelegate on initSession
         // Specify the channel to be 'sms' for tracking on the Branch dashboard
-        /* Share deep link */
-        [self.progressBar hide];
-        [buo getShortUrlWithLinkProperties:lp andCallback:^(NSString* url, NSError* error) {
+        
+        /* Code for sms */
+        NSMutableDictionary *params = [NSMutableDictionary dictionary];
+        params[@"referringUsername"] = @"RandomKey";
+        params[@"referringUserId"] = @"RandomValue";
+        
+        // ... insert code to start the spinner of your choice here ...
+        [self.progressBar show];
+        
+        [[Branch getInstance] getShortURLWithParams:params andChannel:@"SMS" andFeature:@"Referral" andCallback:^(NSString *url, NSError *error) {
             if (!error) {
-                NSString *url = url;
+                // Check to make sure we can send messages on this device
+                if ([MFMessageComposeViewController canSendText]) {
+                    MFMessageComposeViewController *messageComposer = [[MFMessageComposeViewController alloc] init];
+
+                    // Set the contents of the SMS/iMessage -- be sure to include the URL!
+                    [messageComposer setBody:[NSString stringWithFormat:@"I created a monster named %@ 💖!\n%@.\nCreate your own monster here 🔮: %@", self.monsterName, self.monsterDescription, url]];
+
+
+                    messageComposer.messageComposeDelegate = self;
+                    [self presentViewController:messageComposer animated:YES completion:^{
+                        // ... insert code to stop the spinner here (be sure to do so on the main thread) ...
+                        [self.progressBar hide];
+
+                    }];
+
+                } else {
+                    // ... insert code to stop the spinner here (be sure to do so on the main thread) ...
+                    [self.progressBar hide];
+                    [[[UIAlertView alloc] initWithTitle:@"Sorry" message:@"Your device does not allow sending SMS or iMessages." delegate:nil cancelButtonTitle:@"Okay" otherButtonTitles:nil] show];
+                }
             }
         }];
-        [buo showShareSheetWithLinkProperties:lp andShareText:@"Super amazing thing I want to share!" fromViewController:self completion:^(NSString* activityType, BOOL completed) {
-            NSLog(@"finished presenting");
-        }];
-        
-        /* finish */
+        /* end of sms code */
+
         
     } else {
         UIAlertView *alert_Dialog = [[UIAlertView alloc] initWithTitle:@"No Message Support" message:@"This device does not support messaging" delegate:nil cancelButtonTitle:@"OK" otherButtonTitles:nil];
+        [[Branch getInstance] userCompletedAction:@"share_sms_failure"];
         [alert_Dialog show];
         alert_Dialog = nil;
     }
@@ -274,9 +295,9 @@ static CGFloat MONSTER_HEIGHT_FIVE = 0.55f;
 - (void)messageComposeViewController:(MFMessageComposeViewController *)controller
                  didFinishWithResult:(MessageComposeResult)result {
     if (MessageComposeResultSent == result) {
-        
+        NSLog(@"finished presenting");
         // track successful share event via sms
-//        [[Branch getInstance] userCompletedAction:@"share_sms_success"];
+        [[Branch getInstance] userCompletedAction:@"share_sms_success"];
     }
     [self dismissViewControllerAnimated:YES completion:nil];
 }
