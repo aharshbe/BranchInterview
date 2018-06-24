@@ -81,7 +81,7 @@ static CGFloat MONSTER_HEIGHT_FIVE = 0.55f;
     [self.view addSubview:self.progressBar];
     
     // #8 TODO: track that the user viewed the monster view page
-    
+
     /* Create content reference */
     BranchUniversalObject *buo = [[BranchUniversalObject alloc] initWithCanonicalIdentifier:@"content/12345"];
     buo.title = @"Monster view page";
@@ -112,6 +112,7 @@ static CGFloat MONSTER_HEIGHT_FIVE = 0.55f;
     [buo getShortUrlWithLinkProperties:lp andCallback:^(NSString* url, NSError* error) {
         if (!error) {
             self.urlTextView.text = url;
+            self.urlTextView.textContainerInset = UIEdgeInsetsMake(16, 20, 0, 20);;
         }
     }];
    
@@ -191,7 +192,7 @@ static CGFloat MONSTER_HEIGHT_FIVE = 0.55f;
     self.botLayerThreeFace.frame = newFrame;
     
     CGRect textFrame = self.txtDescription.frame;
-    textFrame.origin.y  = newFrame.origin.y + newFrame.size.height + 8;
+    textFrame.origin.y  = newFrame.origin.y + newFrame.size.height - 23;
     self.txtDescription.frame = textFrame;
     
     CGRect cmdFrame = self.cmdChange.frame;
@@ -269,7 +270,6 @@ static CGFloat MONSTER_HEIGHT_FIVE = 0.55f;
                     messageComposer.messageComposeDelegate = self;
                     [self presentViewController:messageComposer animated:YES completion:^{
                         [self.progressBar hide];
-
                     }];
 
                 } else {
