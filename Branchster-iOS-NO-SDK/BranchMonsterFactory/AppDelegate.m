@@ -27,9 +27,6 @@
     UIViewController *nextVC;
     
     /* Added Austin Harshberger*/
-    // if you are using the TEST key
-    // [Branch setUseTestBranchKey:YES];
-    // for debug and development only
     [[Branch getInstance] setDebug];
     // listener for Branch Deep Link data
     [[Branch getInstance] initSessionWithLaunchOptions:launchOptions andRegisterDeepLinkHandler:^(NSDictionary * _Nonnull params, NSError * _Nullable error) {
